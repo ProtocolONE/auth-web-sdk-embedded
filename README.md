@@ -1,4 +1,11 @@
 # auth-web-sdk-embedded
+- `src/main.js` - точка входа для сборки
+- `src/i18n.js` - подключение интернационализации
+- `src/Root.vue` - входной (рутовый) компонент
+- `src/assets/` - jpg, png, css, scss и так далее
+- `src/components/` - **плоский** список компонентов приложения
+- `src/locales` - интернацианализация приложения в формате json
+- `src/store` - файлы vuex-стора
 
 ## Project setup
 ```

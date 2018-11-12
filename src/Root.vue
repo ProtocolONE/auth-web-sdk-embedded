@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <center>
       <img alt="Vue logo" src="./assets/logo.png">
     </center>
@@ -11,7 +11,7 @@
 import AuthForm from './components/AuthForm.vue';
 
 export default {
-  name: 'App',
+  name: 'Root',
   components: {
     AuthForm,
   },

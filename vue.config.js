@@ -39,5 +39,11 @@ module.exports = {
   pluginOptions: {
     lintStyleOnBuild: false,
     stylelint: {},
+    i18n: {
+      locale: 'ru',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
   },
 };
