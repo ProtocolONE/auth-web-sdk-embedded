@@ -4,6 +4,8 @@
  */
 
 import Vue from 'vue';
+import './plugins/vue-material';
+import './plugins/vuelidate';
 import App from './App.vue';
 import store from './store/RootStore';
 import i18n from './i18n';
