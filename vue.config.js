@@ -1,7 +1,6 @@
 module.exports = {
   css: {
     extract: false,
-    modules: true,
   },
 
   filenameHashing: false,
@@ -43,7 +42,7 @@ module.exports = {
       locale: 'ru',
       fallbackLocale: 'en',
       localeDir: 'locales',
-      enableInSFC: true
-    }
+      enableInSFC: true,
+    },
   },
 };
