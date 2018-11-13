@@ -4,7 +4,7 @@
  */
 
 import Vue from 'vue';
-import Root from './Root.vue';
+import App from './App.vue';
 import store from './store/RootStore';
 import i18n from './i18n';
 
@@ -14,7 +14,7 @@ function mountApp(targetElement) {
   new Vue({
     store,
     i18n,
-    render: h => h(Root),
+    render: h => h(App),
   }).$mount(targetElement);
 }
 
