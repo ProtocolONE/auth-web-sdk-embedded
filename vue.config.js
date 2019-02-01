@@ -1,3 +1,5 @@
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
 module.exports = {
   css: {
     extract: false,
@@ -30,19 +32,17 @@ module.exports = {
 
   configureWebpack: {
     output: {
-      filename: 'sdk.js',
+      filename: 'p1payone.js',
       chunkFilename: '[name].js',
     },
+    plugins:
+      process.env.CHECK_SIZE === 'true'
+        ? [new BundleAnalyzerPlugin()]
+        : [],
   },
 
   pluginOptions: {
     lintStyleOnBuild: false,
     stylelint: {},
-    i18n: {
-      locale: 'ru',
-      fallbackLocale: 'en',
-      localeDir: 'locales',
-      enableInSFC: true,
-    },
   },
 };

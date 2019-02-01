@@ -1,0 +1,35 @@
+.p1payone-js-sdk-modal-layer {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+  text-align: center;
+
+  &__inner {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+
+    @media all and (max-width: 736px) {
+      padding-top: 20px;
+    }
+  }
+
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    padding: 10px;
+
+    @media all and (max-width: 736px) {
+      top: 30px;
+    }
+  }
+}

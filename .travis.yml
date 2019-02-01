@@ -1,0 +1,39 @@
+language: node_js
+node_js:
+- 11
+sudo: true
+env:
+  global:
+  #host
+  - secure: BywnmmKs5A9gHTWC9nzzZacRoITZYbTZpe1WdQEPn6ENkFrXmTdOnoyLNLFRAUE1qqt+hjW65cQnRuLmCOtpR+gjlWAci6EvZDgAHVxetsfhW3BYRR0X/kPy/Io5Rhb+kjIi8vl00VmYx5YsvO6SeO3M//HitjQVjWS7kx3nLk6WowtsvC5ByhP1C+tqpXNwsZwlPHREWAMRmpIYiX/iv08EXjljHWNr84O7SOkrWB64BAdWZM+t3Wuz7fx6AMlHEeMGkQ8HXRRDV6M/pMqEFFyBvkOF5pr6IZ4Jwahj1Em/Fb2rcucoZ1JTGiBgm9wcWTJa9qAQ05ggv8gxf2HAgmU+F7bA+an8A7Zt2HY9w4BLYMvV9XQZ/dvgn0wKB3d52dY+63VZ9icf4QfkXRgAytys5QjOT77wVfjjnUrefSFXfHw0pGWDRxW5OhPxipl6KJgSjdGEUnIXND/gAca+CYC4pdh61VDAuutDLwMJTukLRk/pw6u4mIJz7x8WSopCAOgPpi/GQRjV+fgKIuAhJg+F0yxvybnSWvV5u3v+Reru+2YGQ8buXoJEgaZb2ImWCzX0+FUsVqWZmMvV+48mKxBc5AfBEf8eyOqZWryiUTc6OvY4OIkW8leG70zAmSlBw4X5oq+ZVSYnD6I87WHPKnDj5gaadErk2W75T3ky+HY=
+  #access_key  
+  - secure: Mvu+r62cAwNWiok3R7V2Ia54XVQJdjDFn9TXv6/uy+tzUM1hO1tlwtvwn1jW/Qp3WkeNdQIb5TQPfQ+f2K53J7lfoGt3R/Gi+pLIUWPucH+2Iwz/yoVb7eOTiAh3NBADBLk2NAeO7rbtAp3MvG5TAA44Q5N6I//V3mU2apn78ts0rfDukbxsva3c1EbyT5pdLp/pD0J36CtwDsvjT1oy+teUS5t6O3smkh9zQ1Gy0cnsLt754qmtbLQR9R0wFFZY5RH2GNYCEkwrvS6GXZ4g1EoAxA8MFJopsvgXgK4QA9qDBySc9OA4leDA5TvXtnT3Y6hR7HGA5Z9UJu0UR872AgJ4KpSiznlOBkEFuzaXWFZBqcsRDCQzXOmHEnoCXx1wyCQBzI9UFjSWpeVDfCxmYl01Iq7FMetl5VUyhByJYLrhTRL9vKW6mRV37R4mwyGRi9goF/3CKMcz6foMWqSEZUlHs0j3M4DFguqn8Wh8gjzUUImF9iho2IXAu5x+r+KEgCWO8xR5NMnATaJy+g3eW6zT0/Up6dgW/lkt2DWPKD2lWGCD6GlWFOa6Lu8uAIN8uMKL/hka2B/mJwn6pO2Lb5o/sW8ukW0Ytmaq6f0WGh0TTBcx1k0EPikXEyKI7IYb2UsCKdwR6gwhqur4tb1Rf6YZPLvYhxPFbuT4PXPLwbI=
+  #secret_key
+  - secure: G8OIs9z5VMIV9tNjaPzQaQdgse3f4Dgfit8QPImbSafi8jIskIbMKdp9vxcUyJaeRmRb/l9UuCYM0dgmEvgHiXXFiuyqvWFTMS0S9/6q/sn9H5utIsm6e2wC/QYpbEGMk74rWEZOwLZrbjMf8FR5VKJkNb0XsFj+wE+2b9eQePJE9Ou7etSJfPkn1Z7M/wyq6I3YIAdBOJdyUHcNSTQn6QJUOV2UAmDNwB961j3bR9jENwQbCqjsaGXibBEMVx8hQSLlAbpY7mAvrcCOlhiKDpQuoy45ZHFjVlDqsuXs1x5YGPmR9/k9/q7w27xilJH70QIiQLxepDX0rP8WL9Lx8uC0RNdf2sXW0jEtfH6kljae74Td+YsXjgr/DE15/3G+A6V2R2QXnm+mWjz+gRVqjKh7ZT5F1oDKHuBNhVtf5ekdtHk5I2QnM4wdTl9gzQ0Cxv8qkWuX/zcFrsW4/sDWfvdbU10PTWo63QNxsXETCjoTCGgnZEQnat0ct+2M6Ays9RR5aA39IPP8e2zzRBtdLlEzZKUZPfe4K6Zc6soro/hjBoDCwJe+gAB6gSUZ0goeqCWZRDNqDtP8Z4TKIn51TSEsVuwfdUhJoWGuVwj/bXi2vylpchG8n/XrKsN5OBnnUkjUeWqAn7kFf1vPtXv1rddNpkEtcVV3F9B4ALxN+ms=
+before_script: curl https://rclone.org/install.sh | sudo bash
+jobs:
+  include:
+  - name: dev
+    if: "(branch = master) or (tag =~ ^v)"
+    script:
+    - set -e
+    - npm run lint
+    - npm run test
+    - npm run build
+    - rclone copy dist :s3://auth/sdk/dev/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-endpoint=$S3_HOST
+      --s3-secret-access-key="$S3_SECRET_KEY"
+  - name: release
+    if: "(tag =~ ^v)"
+    script:
+    - set -e
+    - npm run lint
+    - npm run test
+    - npm run build
+    - rclone copy dist :s3://auth/sdk/latest/ --s3-access-key-id="$S3_ACCESS_KEY"
+      --s3-secret-access-key="$S3_SECRET_KEY" --s3-endpoint=$S3_HOST
+    - rclone copy dist :s3://auth/sdk/$TRAVIS_TAG/ --s3-access-key-id="$S3_ACCESS_KEY"
+      --s3-secret-access-key="$S3_SECRET_KEY" --s3-endpoint=$S3_HOST
+notifications:
+  email: false
+  slack:
+    secure: EfqPW3dwulj/+GsA3mMSTEAJGkt9XJ0YiapBHiiyfoVg0YToqto8st5LcJAhmQ+5XPyvnZ5fyZmOFQbYdLSV4JoZDx5AspObe2C0rM7mcdYA9JzTxseOr48XagZH2KOtf5+fgVuCANmfrxTv2xZAGC37hX9/YFdunG3SEvfmc1j1mSmwQqwDChsEDET6XzcgA/Q3tplLNcfLKXf2j4GR0Y1Lc+E6lsnRmRXeDVW6R9hI4rcfkCeSy+vWzAaa31t9i+O4zxZGcCxlTxKcbDVpBidCfu3pasbAjf+CCApfFNzEWRrfD7Wx77nrbdrUpta663YYB2gqU9/6dVLHbRCZIJMzc5KmAtrdxFC4kSf0V+g72oUXPe/0F6VxhJR68ymW8JZvWuiWCmfVqR4t3O90S1BXlL2Ccw5YOGs1NID6ZiPNn4XYBGp8LGpSqPgq/XCmJQgwYb7+ASZAj+P5EOjTrEHZJ01n/jxgRsmGxq6MYlFSywfeVxgRLL5ZJSTj1u05s+UadYtrUD6dN3dJaX+j5ZN/x4Su1FbT8KFKYzNmabQH9ireNzdvfZJkSPpxC1IByRB7LZWvDNCce0kCmqvBP9r7XVmRp7UNPIr2Zxyghq/6wGfxMTqZUN3vgJIqBwm+NumjbyIhAFFavBcRXlelVmL+khpNMof6X/DJ3n7fbG0=

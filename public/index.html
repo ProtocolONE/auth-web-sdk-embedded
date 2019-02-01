@@ -4,23 +4,40 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>auth-web-sdk-embedded</title>
+    <title>ProtocolONE PayOne</title>
     <style>
       body {
-        font-family: Helvetica, Arial, sans-serif;
-        color: #333333;
         background: #f9f9f9;
+        overflow-y: scroll;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
       }
     </style>
   </head>
-  <body>
+  <body style="height: 2000px;">
+    <!-- This page is a base page in development mode  -->
     <noscript>
       <strong
-        >We're sorry but auth-web-sdk-embedded doesn't work properly without JavaScript enabled.
-        Please enable it to continue.</strong
-      >
+        >We're sorry but the page doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    
+    <div class="container">
+      <div id="app"></div>
+    </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const authForm = new P1AuthWebSdk({
+          clientID: '5c221cde5ffa56fdd05257df',
+          // language: 'en',
+        });
+        authForm.renderModal();
+      });
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>

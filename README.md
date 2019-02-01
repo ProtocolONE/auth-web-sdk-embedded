@@ -1,46 +1,28 @@
-# auth-web-sdk-embedded
-- `src/main.js` - точка входа для сборки
-- `src/i18n.js` - подключение интернационализации
-- `src/Root.vue` - входной (рутовый) компонент
-- `src/assets/` - jpg, png, css, scss и так далее
-- `src/components/` - **плоский** список компонентов приложения
-- `src/locales` - интернацианализация приложения в формате json
-- `src/store` - файлы vuex-стора
+# ProtocolONE Auth Web SDK
 
-## Project setup
-```
-npm install
-```
+## Development
 
 ### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies into single js-file
 ```
 npm run build
 ```
 
-### Run your tests
+### Like `run build` but with dist file size analysis
+```
+npm run check-size
+```
+
+### Run tests
 ```
 npm run test
 ```
 
-### Lints and fixes files
+### Run tests for development in watch mode 
 ```
-npm run lint
+npm run test:dev
 ```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
