@@ -32,7 +32,7 @@ module.exports = {
 
   configureWebpack: {
     output: {
-      filename: 'p1payone.js',
+      filename: 'auth-web-sdk.js',
       chunkFilename: '[name].js',
     },
     plugins:
