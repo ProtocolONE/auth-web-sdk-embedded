@@ -92,16 +92,17 @@ export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow,
       this.iframe.setAttribute('width', width);
       this.iframe.setAttribute('height', height);
     },
-  }, (name) => {
-    this.emit(name);
+  }, (name, data) => {
+    this.emit(name, data);
   });
 }
 
 export default class P1PayOne extends Events.EventEmitter {
   constructor({
-    clientID, language, apiUrl,
+    clientID, redirectUri, language, apiUrl,
   } = {}) {
     super();
+    assert(clientID, 'clientID is required for "new P1AuthWebSdk(...)"');
     this.clientID = clientID;
     this.language = getLanguage(language);
 
@@ -110,7 +111,10 @@ export default class P1PayOne extends Events.EventEmitter {
     this.urls = getFunctionalUrls(apiUrl);
     this.iframeLoadingErrorTimeout = null;
 
-    this.formData = {};
+    this.formData = {
+      clientID,
+      redirectUri,
+    };
     this.formOptions = {
       isModal: false,
     };

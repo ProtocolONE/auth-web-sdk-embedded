@@ -14,6 +14,7 @@ export const receivingMessagesNames = invert({
   INITED: 'inited',
   LOADED: 'loaded',
   FORM_RESIZE: 'formResize',
+  TOKEN_RECEIVED: 'tokenReceived',
 });
 
 export function postMessage(targetWindow, nameID, data = {}) {

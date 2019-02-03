@@ -1,18 +1,18 @@
 import AuthWebSdk, { getLanguage } from '@/AuthWebSdk';
 
-const projectID = '5be2e16701d96d00012d26c3';
+const clientID = '5be2e16701d96d00012d26c3';
 
 describe('AuthWebSdk', () => {
-  // it('should require projectID to init', () => {
-  //   expect(() => {
-  //     // eslint-disable-next-line
-  //     new AuthWebSdk();
-  //   }).toThrowError(/projectID is required/);
-  // });
+  it('should require clientID to init', () => {
+    expect(() => {
+      // eslint-disable-next-line
+      new AuthWebSdk();
+    }).toThrowError(/clientID is required/);
+  });
 
   it('should be able to handle events', () => {
     const p1PayOne = new AuthWebSdk({
-      projectID,
+      clientID,
     });
 
     let check;
@@ -27,7 +27,7 @@ describe('AuthWebSdk', () => {
   it('should be able to handle custom apiUrl', () => {
     const customApiUrl = 'https://localhost:3333';
     const p1PayOne = new AuthWebSdk({
-      projectID,
+      clientID,
       apiUrl: customApiUrl,
     });
 

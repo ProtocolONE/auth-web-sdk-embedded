@@ -33,9 +33,13 @@
       document.addEventListener('DOMContentLoaded', function() {
         const authForm = new P1AuthWebSdk({
           clientID: '5c221cde5ffa56fdd05257df',
+          redirectUri: 'http://localhost:8080/?success=true'
           // language: 'en',
         });
         authForm.renderModal();
+        authForm.on('tokenReceived', (value) => {
+          console.log(11111, 'value', value)
+        });
       });
     </script>
     <!-- built files will be auto injected -->
