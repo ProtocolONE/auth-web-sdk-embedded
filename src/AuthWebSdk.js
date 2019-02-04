@@ -92,6 +92,10 @@ export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow,
       this.iframe.setAttribute('width', width);
       this.iframe.setAttribute('height', height);
     },
+
+    REDIRECT_REQUESTED: (url) => {
+      window.location.href = url;
+    },
   }, (name, data) => {
     this.emit(name, data);
   });

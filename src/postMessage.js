@@ -15,6 +15,7 @@ export const receivingMessagesNames = invert({
   LOADED: 'loaded',
   FORM_RESIZE: 'formResize',
   TOKEN_RECEIVED: 'tokenReceived',
+  REDIRECT_REQUESTED: 'redirectRequested',
 });
 
 export function postMessage(targetWindow, nameID, data = {}) {
