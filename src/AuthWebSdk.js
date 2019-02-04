@@ -104,6 +104,7 @@ export default class P1PayOne extends Events.EventEmitter {
     super();
     assert(clientID, 'clientID is required for "new P1AuthWebSdk(...)"');
     this.clientID = clientID;
+    this.redirectUri = redirectUri;
     this.language = getLanguage(language);
 
     this.iframe = null;
@@ -136,7 +137,10 @@ export default class P1PayOne extends Events.EventEmitter {
     };
 
     this.iframe = createIframe(
-      this.urls.getAuthFormUrl(),
+      this.urls.getAuthFormUrl({
+        clientID: this.clientID,
+        redirectUri: this.redirectUri,
+      }),
     );
     appendContainer.appendChild(this.iframe);
     this.initIframeMessagesHandling();
@@ -167,6 +171,7 @@ export default class P1PayOne extends Events.EventEmitter {
     this.iframe = createIframe(
       this.urls.getAuthFormUrl({
         clientID: this.clientID,
+        redirectUri: this.redirectUri,
       }),
     );
     modalLayerInner.appendChild(this.iframe);
