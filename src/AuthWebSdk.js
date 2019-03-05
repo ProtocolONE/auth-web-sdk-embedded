@@ -103,8 +103,8 @@ export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow)
 
 export default class P1PayOne extends Events.EventEmitter {
   constructor({
-                clientID, redirectUri, language, apiUrl, state, scopes,
-              } = {}) {
+    clientID, redirectUri, language, apiUrl, state, scopes,
+  } = {}) {
     super();
     assert(clientID, 'clientID is required for "new P1AuthWebSdk(...)"');
     assert(redirectUri, 'redirectUri is required for "new P1AuthWebSdk(...)"');

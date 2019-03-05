@@ -1,6 +1,6 @@
-import { receiveMessagesFromPaymentForm } from '@/AuthWebSdk';
-import { payonePaymentFormSourceName, receivingMessagesNames } from '@/postMessage';
 import { invert } from 'lodash-es';
+import { receiveMessagesFromPaymentForm } from '../../src/AuthWebSdk';
+import { payonePaymentFormSourceName, receivingMessagesNames } from '../../src/postMessage';
 
 const invertedReceivingMessagesNames = invert(receivingMessagesNames);
 
