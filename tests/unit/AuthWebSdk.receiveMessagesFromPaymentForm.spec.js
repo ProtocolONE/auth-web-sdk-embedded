@@ -83,8 +83,6 @@ describe('AuthWebSdk.receiveMessagesFromPaymentForm ', () => {
     });
 
     currentWindow.imitateReceivedMessage('INITED');
-
-    expect(result.formData.check).toEqual(true);
     expect(result.options.email).toEqual('check');
     expect(result.options.language).toEqual('en');
     expect(result.options.apiUrl).toEqual('check');
