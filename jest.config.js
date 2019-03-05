@@ -24,7 +24,6 @@ module.exports = {
   transformIgnorePatterns: [
     '<rootDir>/node_modules/(?!lodash-es)',
   ],
-  collectCoverage: true,
   collectCoverageFrom: [
     'src/**/*.{js,vue}',
     '!**/node_modules/**',

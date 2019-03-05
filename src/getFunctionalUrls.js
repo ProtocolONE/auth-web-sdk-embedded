@@ -1,22 +1,21 @@
 import qs from 'qs';
 import assert from 'simple-assert';
 
-export default function getFunctionalUrls(apiUrl = 'https://auth1.eu.gamenet.ru') {
+export default function getFunctionalUrls(apiUrl = 'https://auth1.tst.protocol.one') {
   return {
     apiUrl,
-    apiCreateOrderUrl: `${apiUrl}/api/v1/order`,
-    apiGetProjectPackagesUrl: `${apiUrl}/api/v1/project/package`,
-    devAuthFormUrl: 'https://localhost:4040/',
-    getAuthFormUrl({ clientID, redirectUri }) {
-      if (process.env.NODE_ENV === 'development') {
-        return this.devAuthFormUrl;
-      }
-
-      assert(clientID, '');
+    getAuthFormUrl({
+      clientID, redirectUri, state, scopes,
+    }) {
+      assert(clientID, 'You must defined clientID param');
+      assert(redirectUri, 'You must defined redirect uri param');
+      assert(state, 'You must defined state param');
 
       const query = {
         client_id: clientID,
         ...(redirectUri ? { redirect_uri: redirectUri } : {}),
+        ...(state ? { state } : {}),
+        ...(scopes ? { scopes } : {}),
       };
 
       return `${apiUrl}/login/form?${qs.stringify(query)}`;

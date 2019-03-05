@@ -62,7 +62,7 @@ function getFormViewOptions(windowWidth) {
   };
 }
 
-export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow, isDev = true) {
+export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow) {
   receiveMessages(currentWindow, {
     /**
      * The form insize iframe is awaiting the command below with listed options to init
@@ -77,7 +77,7 @@ export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow,
        * but in production the page receives it by itself
        */
       postMessage(postMessageWindow, 'REQUEST_INIT_FORM', {
-        formData: isDev ? this.formData : {},
+        formData: {},
         options: {
           ...this.formOptions,
           email: this.email,
@@ -103,12 +103,16 @@ export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow,
 
 export default class P1PayOne extends Events.EventEmitter {
   constructor({
-    clientID, redirectUri, language, apiUrl,
-  } = {}) {
+                clientID, redirectUri, language, apiUrl, state, scopes,
+              } = {}) {
     super();
     assert(clientID, 'clientID is required for "new P1AuthWebSdk(...)"');
+    assert(redirectUri, 'redirectUri is required for "new P1AuthWebSdk(...)"');
+    assert(state, 'state is required for "new P1AuthWebSdk(...)"');
     this.clientID = clientID;
     this.redirectUri = redirectUri;
+    this.state = state;
+    this.scopes = scopes;
     this.language = getLanguage(language);
 
     this.iframe = null;
@@ -119,6 +123,8 @@ export default class P1PayOne extends Events.EventEmitter {
     this.formData = {
       clientID,
       redirectUri,
+      state,
+      scopes,
     };
     this.formOptions = {
       isModal: false,
@@ -144,6 +150,8 @@ export default class P1PayOne extends Events.EventEmitter {
       this.urls.getAuthFormUrl({
         clientID: this.clientID,
         redirectUri: this.redirectUri,
+        state: this.state,
+        scopes: this.scopes,
       }),
     );
     appendContainer.appendChild(this.iframe);
@@ -176,6 +184,8 @@ export default class P1PayOne extends Events.EventEmitter {
       this.urls.getAuthFormUrl({
         clientID: this.clientID,
         redirectUri: this.redirectUri,
+        state: this.state,
+        scopes: this.scopes,
       }),
     );
     modalLayerInner.appendChild(this.iframe);
@@ -194,16 +204,8 @@ export default class P1PayOne extends Events.EventEmitter {
    */
   initIframeMessagesHandling() {
     const postMessageWindow = this.iframe.contentWindow;
-    const isDev = process.env.NODE_ENV === 'development';
 
-    if (isDev) {
-      this.iframeLoadingErrorTimeout = setTimeout(() => {
-        // eslint-disable-next-line
-        alert(`Can't connect to ${this.urls.devAuthFormUrl} to load the form. Check "auth-web-form" package is served`);
-      }, 1000);
-    }
-
-    receiveMessagesFromPaymentForm.call(this, window, postMessageWindow, isDev);
+    receiveMessagesFromPaymentForm.call(this, window, postMessageWindow);
 
     return this;
   }

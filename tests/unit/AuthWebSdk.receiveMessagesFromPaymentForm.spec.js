@@ -98,7 +98,6 @@ describe('AuthWebSdk.receiveMessagesFromPaymentForm ', () => {
       AuthWebSdkMock,
       currentWindow,
       postMessageWindow,
-      false,
     );
 
     let result;
