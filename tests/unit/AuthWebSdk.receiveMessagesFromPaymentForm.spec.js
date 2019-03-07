@@ -1,6 +1,6 @@
-import { receiveMessagesFromPaymentForm } from '@/AuthWebSdk';
-import { payonePaymentFormSourceName, receivingMessagesNames } from '@/postMessage';
 import { invert } from 'lodash-es';
+import { receiveMessagesFromPaymentForm } from '../../src/AuthWebSdk';
+import { payonePaymentFormSourceName, receivingMessagesNames } from '../../src/postMessage';
 
 const invertedReceivingMessagesNames = invert(receivingMessagesNames);
 
@@ -83,8 +83,6 @@ describe('AuthWebSdk.receiveMessagesFromPaymentForm ', () => {
     });
 
     currentWindow.imitateReceivedMessage('INITED');
-
-    expect(result.formData.check).toEqual(true);
     expect(result.options.email).toEqual('check');
     expect(result.options.language).toEqual('en');
     expect(result.options.apiUrl).toEqual('check');
@@ -98,7 +96,6 @@ describe('AuthWebSdk.receiveMessagesFromPaymentForm ', () => {
       AuthWebSdkMock,
       currentWindow,
       postMessageWindow,
-      false,
     );
 
     let result;
