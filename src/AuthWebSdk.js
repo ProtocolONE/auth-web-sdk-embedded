@@ -107,12 +107,12 @@ export default class P1PayOne extends Events.EventEmitter {
   } = {}) {
     super();
     assert(clientID, 'clientID is required for "new P1AuthWebSdk(...)"');
-    assert(redirectUri, 'redirectUri is required for "new P1AuthWebSdk(...)"');
     assert(state, 'state is required for "new P1AuthWebSdk(...)"');
     this.clientID = clientID;
     this.redirectUri = redirectUri;
     this.state = state;
     this.scopes = scopes;
+    this.modalLayer = undefined;
     this.language = getLanguage(language);
 
     this.iframe = null;
@@ -161,7 +161,7 @@ export default class P1PayOne extends Events.EventEmitter {
   }
 
   /**
-   * Renders the payment form in modal dialog layer
+   * Renders the auth form in modal dialog layer
    *
    * @return {P1PayOne}
    */
@@ -172,13 +172,11 @@ export default class P1PayOne extends Events.EventEmitter {
     };
 
     const { modalLayer, modalLayerInner, closeButton } = createModalLayer();
-
+    this.modalLayer = modalLayer;
     closeButton.addEventListener('click', () => {
-      modalLayer.parentNode.removeChild(modalLayer);
-      modalTools.showBodyScrollbar();
-      this.emit('modalClosed');
+      this.closeModal();
     });
-    document.body.appendChild(modalLayer);
+    document.body.appendChild(this.modalLayer);
 
     this.iframe = createIframe(
       this.urls.getAuthFormUrl({
@@ -195,6 +193,17 @@ export default class P1PayOne extends Events.EventEmitter {
     this.emit('modalOpened');
 
     return { iframe: this.iframe };
+  }
+
+  /**
+   * Close the auth form in modal dialog layer
+   *
+   * @return {P1PayOne}
+   */
+  async closeModal() {
+    this.modalLayer.parentNode.removeChild(this.modalLayer);
+    modalTools.showBodyScrollbar();
+    this.emit('modalClosed');
   }
 
   /**
