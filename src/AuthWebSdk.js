@@ -112,7 +112,7 @@ export default class P1PayOne extends Events.EventEmitter {
     this.redirectUri = redirectUri;
     this.state = state;
     this.scopes = scopes;
-    this.modalLayer = undefined;
+    this.modalLayer = null;
     this.language = getLanguage(language);
 
     this.iframe = null;
@@ -197,13 +197,13 @@ export default class P1PayOne extends Events.EventEmitter {
 
   /**
    * Close the auth form in modal dialog layer
-   *
-   * @return {P1PayOne}
    */
-  async closeModal() {
-    this.modalLayer.parentNode.removeChild(this.modalLayer);
-    modalTools.showBodyScrollbar();
-    this.emit('modalClosed');
+  closeModal() {
+    if (this.modalLayer != null) {
+      this.modalLayer.parentNode.removeChild(this.modalLayer);
+      modalTools.showBodyScrollbar();
+      this.emit('modalClosed');
+    }
   }
 
   /**
