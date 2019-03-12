@@ -1,7 +1,6 @@
 import AuthWebSdk, { getLanguage } from '@/AuthWebSdk';
 
 const clientID = '5be2e16701d96d00012d26c3';
-const redirectUri = 'http://localhost';
 const state = 'teststate';
 
 describe('AuthWebSdk', () => {
@@ -16,18 +15,11 @@ describe('AuthWebSdk', () => {
     expect(() => {
       // eslint-disable-next-line
       new AuthWebSdk({clientID: clientID});
-    }).toThrowError(/redirectUri is required/);
-  });
-
-  it('should require clientID to init', () => {
-    expect(() => {
-      // eslint-disable-next-line
-      new AuthWebSdk({clientID: clientID, redirectUri: redirectUri});
     }).toThrowError(/state is required/);
   });
 
   it('should be able to handle events', () => {
-    const p1PayOne = new AuthWebSdk({ clientID, redirectUri, state });
+    const p1PayOne = new AuthWebSdk({ clientID, state });
 
     let check;
     p1PayOne.on('testEvent', (value) => {
@@ -42,7 +34,6 @@ describe('AuthWebSdk', () => {
     const customApiUrl = 'https://localhost:3333';
     const p1PayOne = new AuthWebSdk({
       clientID,
-      redirectUri,
       state,
       apiUrl: customApiUrl,
     });

@@ -8,7 +8,6 @@ export default function getFunctionalUrls(apiUrl = 'https://auth1.tst.protocol.o
       clientID, redirectUri, state, scopes,
     }) {
       assert(clientID, 'You must defined clientID param');
-      assert(redirectUri, 'You must defined redirect uri param');
       assert(state, 'You must defined state param');
 
       const query = {
