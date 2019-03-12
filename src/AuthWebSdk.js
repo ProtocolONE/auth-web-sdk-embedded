@@ -203,6 +203,7 @@ export default class P1PayOne extends Events.EventEmitter {
       this.modalLayer.parentNode.removeChild(this.modalLayer);
       modalTools.showBodyScrollbar();
       this.emit('modalClosed');
+      this.modalLayer = null;
     }
   }
 
