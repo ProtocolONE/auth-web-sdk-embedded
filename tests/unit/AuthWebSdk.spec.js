@@ -19,26 +19,26 @@ describe('AuthWebSdk', () => {
   });
 
   it('should be able to handle events', () => {
-    const p1PayOne = new AuthWebSdk({ clientID, state });
+    const p1AuthOne = new AuthWebSdk({ clientID, state });
 
     let check;
-    p1PayOne.on('testEvent', (value) => {
+    p1AuthOne.on('testEvent', (value) => {
       check = value;
     });
-    p1PayOne.emit('testEvent', 'ok');
+    p1AuthOne.emit('testEvent', 'ok');
 
     expect(check).toEqual('ok');
   });
 
   it('should be able to handle custom apiUrl', () => {
     const customApiUrl = 'https://localhost:3333';
-    const p1PayOne = new AuthWebSdk({
+    const p1AuthOne = new AuthWebSdk({
       clientID,
       state,
       apiUrl: customApiUrl,
     });
 
-    expect(p1PayOne.urls.apiUrl).toEqual(customApiUrl);
+    expect(p1AuthOne.urls.apiUrl).toEqual(customApiUrl);
   });
 
   describe('getLanguage', () => {

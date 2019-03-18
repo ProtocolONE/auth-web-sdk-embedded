@@ -1,7 +1,7 @@
 import assert from 'simple-assert';
 import Events from 'events';
 import getFunctionalUrls from './getFunctionalUrls';
-import { createIframe, createModalLayer } from './createElements';
+import { createIframe, createModalLayer, createModalLogoutLayer } from './createElements';
 import modalTools from './modalTools';
 import { postMessage, receiveMessages } from './postMessage';
 import './assets/styles.scss';
@@ -101,18 +101,20 @@ export function receiveMessagesFromPaymentForm(currentWindow, postMessageWindow)
   });
 }
 
-export default class P1PayOne extends Events.EventEmitter {
+export default class P1AuthOne extends Events.EventEmitter {
   constructor({
-    clientID, redirectUri, language, apiUrl, state, scopes,
+    clientID, redirectUri, language, apiUrl, state, scopes, logoutRedirectUrl,
   } = {}) {
     super();
     assert(clientID, 'clientID is required for "new P1AuthWebSdk(...)"');
     assert(state, 'state is required for "new P1AuthWebSdk(...)"');
     this.clientID = clientID;
     this.redirectUri = redirectUri;
+    this.logoutRedirectUrl = logoutRedirectUrl;
     this.state = state;
     this.scopes = scopes;
     this.modalLayer = null;
+    this.modalLogoutLayer = null;
     this.language = getLanguage(language);
 
     this.iframe = null;
@@ -123,6 +125,7 @@ export default class P1PayOne extends Events.EventEmitter {
     this.formData = {
       clientID,
       redirectUri,
+      logoutRedirectUrl,
       state,
       scopes,
     };
@@ -135,7 +138,7 @@ export default class P1PayOne extends Events.EventEmitter {
    * Renders the payment form into target element
    *
    * @param {String|DomElement} selectorOrElement
-   * @return {P1PayOne}
+   * @return {P1AuthOne}
    */
   async render(selectorOrElement) {
     const appendContainer = getDomElement(selectorOrElement);
@@ -150,6 +153,7 @@ export default class P1PayOne extends Events.EventEmitter {
       this.urls.getAuthFormUrl({
         clientID: this.clientID,
         redirectUri: this.redirectUri,
+        logoutRedirectUrl: this.logoutRedirectUrl,
         state: this.state,
         scopes: this.scopes,
       }),
@@ -163,7 +167,7 @@ export default class P1PayOne extends Events.EventEmitter {
   /**
    * Renders the auth form in modal dialog layer
    *
-   * @return {P1PayOne}
+   * @return {P1AuthOne}
    */
   async renderModal() {
     this.formOptions = {
@@ -196,21 +200,57 @@ export default class P1PayOne extends Events.EventEmitter {
   }
 
   /**
+   * Renders the logout modal layer
+   *
+   * @return {P1AuthOne}
+   */
+  async renderLogoutModal() {
+    this.formOptions = {
+      ...this.formOptions,
+      isModal: true,
+    };
+
+    const { modalLayer, modalLayerInner } = createModalLogoutLayer();
+    this.modalLogoutLayer = modalLayer;
+    document.body.appendChild(this.modalLogoutLayer);
+
+    this.iframe = createIframe(
+      this.urls.getLogoutFormUrl({
+        logoutRedirectUrl: this.logoutRedirectUrl,
+      }), '0', '0',
+    );
+    modalLayerInner.appendChild(this.iframe);
+    this.initIframeMessagesHandling();
+
+    modalTools.hideBodyScrollbar();
+    this.emit('modalOpened');
+
+    return { iframe: this.iframe };
+  }
+
+  /**
    * Close the auth form in modal dialog layer
    */
   closeModal() {
-    if (this.modalLayer != null) {
-      this.modalLayer.parentNode.removeChild(this.modalLayer);
+    if (this.modalLayer != null || this.modalLogoutLayer != null) {
+      if (this.modalLayer != null) {
+        this.modalLayer.parentNode.removeChild(this.modalLayer);
+        this.modalLayer = null;
+      }
+      if (this.modalLogoutLayer != null) {
+        this.modalLogoutLayer.parentNode.removeChild(this.modalLogoutLayer);
+        this.modalLogoutLayer = null;
+      }
       modalTools.showBodyScrollbar();
       this.emit('modalClosed');
-      this.modalLayer = null;
+      this.iframe = null;
     }
   }
 
   /**
    * Handling iframe message transport with the form
    *
-   * @return {P1PayOne}
+   * @return {P1AuthOne}
    */
   initIframeMessagesHandling() {
     const postMessageWindow = this.iframe.contentWindow;

@@ -19,5 +19,16 @@ export default function getFunctionalUrls(apiUrl = 'https://auth1.tst.protocol.o
 
       return `${apiUrl}/login/form?${qs.stringify(query)}`;
     },
+    getLogoutFormUrl({
+      logoutRedirectUrl,
+    }) {
+      assert(logoutRedirectUrl, 'You must defined logoutRedirectUrl param');
+
+      const query = {
+        redirect_uri: logoutRedirectUrl,
+      };
+
+      return `${apiUrl}/oauth2/logout?${qs.stringify(query)}`;
+    },
   };
 }

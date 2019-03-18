@@ -1,5 +1,5 @@
 {
-  "name": "payone-js-sdk",
+  "name": "authone-js-sdk",
   "version": "2.2.0",
   "main": "src/main.js",
   "scripts": {
