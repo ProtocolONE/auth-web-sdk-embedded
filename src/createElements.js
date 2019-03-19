@@ -1,14 +1,16 @@
 /**
- * Comes from "payone-js-payment-form" package devServer options
+ * Comes from "authone-js-payment-form" package devServer options
  */
 
 /**
 * Creates iframe container for payment form
 *
 * @param {String} iframeSrc
+* @param {String} width
+* @param {String} height
 * @return {Object}
 */
-export function createIframe(iframeSrc) {
+export function createIframe(iframeSrc, width = '320', height = '320') {
   const iframe = document.createElement('iframe');
 
   iframe.setAttribute('allowpaymentrequest', 'true');
@@ -24,22 +26,22 @@ export function createIframe(iframeSrc) {
 
   // These sizes are initial
   // Right after App is mounted actual form size is transferred to iframe
-  iframe.setAttribute('width', '320');
-  iframe.setAttribute('height', '320');
+  iframe.setAttribute('width', width);
+  iframe.setAttribute('height', height);
 
   return iframe;
 }
 
 export function createModalLayer() {
   const modalLayer = document.createElement('div');
-  modalLayer.className = 'p1payone-js-sdk-modal-layer';
+  modalLayer.className = 'p1authone-js-sdk-modal-layer';
 
   const modalLayerInner = document.createElement('div');
-  modalLayerInner.className = 'p1payone-js-sdk-modal-layer__inner';
+  modalLayerInner.className = 'p1authone-js-sdk-modal-layer__inner';
   modalLayer.appendChild(modalLayerInner);
 
   const closeButton = document.createElement('span');
-  closeButton.className = 'p1payone-js-sdk-modal-layer__close';
+  closeButton.className = 'p1authone-js-sdk-modal-layer__close';
   closeButton.innerHTML = `
     <svg viewBox="0 0 8 8" width="16" height="16" fill="#999" xmlns="http://www.w3.org/2000/svg">
       <g>
@@ -52,4 +54,12 @@ export function createModalLayer() {
   modalLayerInner.appendChild(closeButton);
 
   return { modalLayer, modalLayerInner, closeButton };
+}
+
+export function createModalLogoutLayer() {
+  const modalLayer = document.createElement('div');
+  const modalLayerInner = document.createElement('div');
+  modalLayer.appendChild(modalLayerInner);
+
+  return { modalLayer, modalLayerInner };
 }

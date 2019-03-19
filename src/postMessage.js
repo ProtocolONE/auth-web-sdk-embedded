@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { invert } from 'lodash-es';
 
-export const payonePaymentFormSourceName = 'P1_AUTH_FORM';
+export const authonePaymentFormSourceName = 'P1_AUTH_FORM';
 
 export const sendingMessagesNames = {
   REQUEST_INIT_FORM: 'requestInitForm',
@@ -16,6 +16,7 @@ export const receivingMessagesNames = invert({
   FORM_RESIZE: 'formResize',
   TOKEN_RECEIVED: 'tokenReceived',
   REDIRECT_REQUESTED: 'redirectRequested',
+  IS_LOGOUT: 'isLogout',
 });
 
 export function postMessage(targetWindow, nameID, data = {}) {
@@ -30,7 +31,7 @@ export function postMessage(targetWindow, nameID, data = {}) {
 
 export function receiveMessages(from, objectWithCallbacks, callbackEvery) {
   from.addEventListener('message', (event) => {
-    if (event.data && event.data.source !== payonePaymentFormSourceName) {
+    if (event.data && event.data.source !== authonePaymentFormSourceName) {
       return;
     }
     const { name } = event.data;

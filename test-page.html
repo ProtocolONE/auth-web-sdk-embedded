@@ -7,13 +7,13 @@
   </head>
   <body>
     <div id="app"></div>
-    <script src="dist/p1payone.js"></script>
+    <script src="dist/p1authone.js"></script>
     <script>
-      const payoneForm = new P1PayOne({
+      const authOneForm = new P1AuthOne({
         projectID: '5be2e16701d96d00012d26c3',
         region: 'US',
-      }); 
-      payoneForm.setAmount(5).render('#app');
+      });
+      authOneForm.setAmount(5).render('#app');
     </script>
   </body>
 </html>
