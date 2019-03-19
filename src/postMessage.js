@@ -16,7 +16,7 @@ export const receivingMessagesNames = invert({
   FORM_RESIZE: 'formResize',
   TOKEN_RECEIVED: 'tokenReceived',
   REDIRECT_REQUESTED: 'redirectRequested',
-  IS_LOGOUT: 'isLogout',
+  LOGOUT_PROCESSED: 'logoutProcessed',
 });
 
 export function postMessage(targetWindow, nameID, data = {}) {
