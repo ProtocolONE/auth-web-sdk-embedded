@@ -19,6 +19,15 @@ export default function getFunctionalUrls(apiUrl = 'https://auth1.tst.protocol.o
 
       return `${apiUrl}/login/form?${qs.stringify(query)}`;
     },
+    getChangePasswordUrl({ clientID }) {
+      assert(clientID, 'You must defined clientID param');
+
+      const query = {
+        client_id: clientID,
+      };
+
+      return `${apiUrl}/dbconnections/change_password/form?${qs.stringify(query)}`;
+    },
     getLogoutFormUrl({
       logoutRedirectUrl,
     }) {

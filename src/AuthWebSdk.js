@@ -131,6 +131,7 @@ export default class P1AuthOne extends Events.EventEmitter {
     };
     this.formOptions = {
       isModal: false,
+      action: 'login',
     };
   }
 
@@ -169,10 +170,11 @@ export default class P1AuthOne extends Events.EventEmitter {
    *
    * @return {P1AuthOne}
    */
-  async renderModal() {
+  async renderModal(action = 'login') {
     this.formOptions = {
       ...this.formOptions,
       isModal: true,
+      action,
     };
 
     const { modalLayer, modalLayerInner, closeButton } = createModalLayer();
@@ -181,15 +183,18 @@ export default class P1AuthOne extends Events.EventEmitter {
       this.closeModal();
     });
     document.body.appendChild(this.modalLayer);
-
-    this.iframe = createIframe(
-      this.urls.getAuthFormUrl({
+    let url = this.urls.getAuthFormUrl({
+      clientID: this.clientID,
+      redirectUri: this.redirectUri,
+      state: this.state,
+      scopes: this.scopes,
+    });
+    if (action === 'change_password') {
+      url = this.urls.getChangePasswordUrl({
         clientID: this.clientID,
-        redirectUri: this.redirectUri,
-        state: this.state,
-        scopes: this.scopes,
-      }),
-    );
+      });
+    }
+    this.iframe = createIframe(url);
     modalLayerInner.appendChild(this.iframe);
     this.initIframeMessagesHandling();
 
