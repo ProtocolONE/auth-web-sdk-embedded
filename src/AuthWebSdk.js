@@ -189,7 +189,7 @@ export default class P1AuthOne extends Events.EventEmitter {
       state: this.state,
       scopes: this.scopes,
     });
-    if (action === 'change_password') {
+    if (action === 'changePassword') {
       url = this.urls.getChangePasswordUrl({
         clientID: this.clientID,
       });
