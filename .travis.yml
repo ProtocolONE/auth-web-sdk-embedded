@@ -20,8 +20,8 @@ jobs:
     - npm run lint
     - npm run test
     - npm run build
-    - rclone copy dist :s3://auth/sdk/dev/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-endpoint=$S3_HOST
-      --s3-secret-access-key="$S3_SECRET_KEY"
+    #- rclone copy dist :s3://auth/sdk/dev/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-endpoint=$S3_HOST --s3-secret-access-key="$S3_SECRET_KEY"
+    - rclone copy dist :s3://cdn-auth-super-com/authsdk/dev/ --s3-access-key-id=$AWS_CDN_ACCESS_KEY_ID --s3-secret-access-key=$AWS_CDN_ACCESS_SECRET_KEY --s3-region=eu-west-1
   - name: release
     if: "(tag =~ ^v)"
     script:
@@ -29,8 +29,8 @@ jobs:
     - npm run lint
     - npm run test
     - npm run build
-    - rclone copy dist :s3://auth/sdk/latest/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-secret-access-key="$S3_SECRET_KEY" --s3-endpoint=$S3_HOST
-    - rclone copy dist :s3://auth/sdk/$TRAVIS_TAG/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-secret-access-key="$S3_SECRET_KEY" --s3-endpoint=$S3_HOST
+    #- rclone copy dist :s3://auth/sdk/latest/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-secret-access-key="$S3_SECRET_KEY" --s3-endpoint=$S3_HOST
+    #- rclone copy dist :s3://auth/sdk/$TRAVIS_TAG/ --s3-access-key-id="$S3_ACCESS_KEY" --s3-secret-access-key="$S3_SECRET_KEY" --s3-endpoint=$S3_HOST
     - rclone copy dist :s3://cdn-auth-super-com/authsdk/latest/ --s3-access-key-id=$AWS_CDN_ACCESS_KEY_ID --s3-secret-access-key=$AWS_CDN_ACCESS_SECRET_KEY --s3-region=eu-west-1
     - rclone copy dist :s3://cdn-auth-super-com/authsdk/$TRAVIS_TAG/ --s3-access-key-id=$AWS_CDN_ACCESS_KEY_ID --s3-secret-access-key=$AWS_CDN_ACCESS_SECRET_KEY --s3-region=eu-west-1
 
